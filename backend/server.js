@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const path = require('path');
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -12,13 +12,9 @@ const chatRouter = require("./routes/chatRoutes");
 const msgRoute = require("./routes/msgRoutes.js");
 const connectionToDB = require("./utils/connectionToDB");
 
-//connection to Db
-connectionToDB();
-
 app.use(cors());
 app.use(express.json());
 // app.use(express.urlencoded({extended :false})); // pro
-
 
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
@@ -26,22 +22,25 @@ app.use("/api/message", msgRoute);
 
 //-------------------Deployment--------------------------
 const __dirname1 = path.resolve();
-if(process.env.MODE === "production"){
-  app.use(express.static(path.join(__dirname1,"/frontend/build")));
-  app.get("*",(req,res)=>{
-    res.sendFile(path.resolve(__dirname1,"frontend","build","index.html"));
-  })
-}
-else{
-app.get("/", (req, res) => {
-  res.send("Welcome To Whatsapp Clone Backend");
-});
+if (process.env.MODE === "production") {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("Welcome To Whatsapp Clone Backend");
+  });
 }
 
 //-------------------Deployment--------------------------
 
 const port = process.env.PORT;
-const server = app.listen(port, console.log(`Server is running on ${port}`));
+const server = app.listen(port, () => {
+  console.log(`Server is running on ${port}`);
+  //connection to Db
+  connectionToDB();
+});
 
 const io = require("socket.io")(server, {
   cors: {
@@ -71,7 +70,7 @@ io.on("connection", (socket) => {
   socket.on("newMessage", (msg) => {
     let chat = msg.chat;
     if (!chat.users) return console.log("user not found");
-    chat?.users?.forEach((user) => { 
+    chat?.users?.forEach((user) => {
       if (String(user._id) == String(msg.sender._id)) return;
       socket.to(user._id).emit("msg received", msg);
     });
@@ -81,7 +80,7 @@ io.on("connection", (socket) => {
     socket.leave(userData._id);
     console.log("user disconnected");
   });
-  
+
   socket.on("disconnect", () => {
     console.log("disconnected at ", socket.id);
   });
