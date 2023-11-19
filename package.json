@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./backend/server.js",
     "start": "node ./backend/server.js",
-    "build": "npm install && npm install --prefix frontend && npm run vite build --prefix frontend"
+    "build": "npm install && npm install --prefix frontend && npm vite build --prefix frontend"
   },
   "author": "Prafulla kumar",
   "license": "ISC",
