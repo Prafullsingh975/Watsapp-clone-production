@@ -21,7 +21,7 @@ import SearchProvider from "../../context/SearchContext";
 import { useNavigate } from "react-router-dom";
 
 import { io } from "socket.io-client";
-import { TypingState } from "../../context/typingContext";
+import { TypingState } from "../../context/TypingContext.jsx";
 import { SocketState } from "../../context/SocketContext";
 
 const endPoint = "http://localhost:5000";
@@ -30,7 +30,7 @@ const Chat = () => {
   var { setSocketConnected, socket } = SocketState();
   const { passSocket, setPassSocket } = SocketState();
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const { isTyping,setIsTyping } = TypingState();
+  const { isTyping, setIsTyping } = TypingState();
 
   useEffect(() => {
     socket = io(endPoint);

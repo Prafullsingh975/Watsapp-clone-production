@@ -4,8 +4,8 @@ import './App.scss';
 
 import {Home,Chat,ProfilePage} from './pages/exportPage'
 import React from 'react';
-import ShowProvider from './context/ShowContext';
-import TypingProvider from './context/typingContext';
+import ShowProvider from './context/ShowContext.jsx';
+import TypingProvider from './context/TypingContext.jsx';
 import SocketProvider from './context/SocketContext';
 // import axios from 'axios';
 

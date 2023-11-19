@@ -6,16 +6,15 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { SlOptionsVertical } from "react-icons/sl";
 import { ShowStates } from "../../context/ShowContext";
 import { participantsName } from "../../utils/group";
-import { TypingState } from "../../context/typingContext";
-import typing from '../../assets/typing.json';
+import { TypingState } from "../../context/TypingContext.jsx";
+import typing from "../../assets/typing.json";
 
 const OpenChatNav = ({ sender }) => {
-
   const [toggleOption, setToggleOption] = useState(false);
   const optionMenuRef = useRef();
   const shadowRef = useRef();
-  const {setShowContactInfo} = ShowStates();
-  const {isTyping} = TypingState();
+  const { setShowContactInfo } = ShowStates();
+  const { isTyping } = TypingState();
 
   const optionGenerator = (isGroup) => {
     const groupOption = [
@@ -28,7 +27,6 @@ const OpenChatNav = ({ sender }) => {
     return isGroup ? groupOption : chatOption;
   };
   const options = optionGenerator(sender.inGroupChat);
-
 
   const handleShowOption = (e) => {
     setToggleOption((prev) => !prev);
@@ -60,9 +58,21 @@ const OpenChatNav = ({ sender }) => {
           <div className="groupInfo">
             <h6>{sender.inGroupChat ? sender.chatName : sender.userName}</h6>
             {isTyping && (
-              <div style={{ display: "flex",fontSize:"0.9rem",fontWeight:"600" }}>
+              <div
+                style={{
+                  display: "flex",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                }}
+              >
                 Typing
-                <div style={{marginLeft:"-0.8rem",height:"0.8rem",marginTop:"-0.25rem"}}>
+                <div
+                  style={{
+                    marginLeft: "-0.8rem",
+                    height: "0.8rem",
+                    marginTop: "-0.25rem",
+                  }}
+                >
                   <Lottie options={defaultOptions} height={40} width={40} />
                 </div>
               </div>
