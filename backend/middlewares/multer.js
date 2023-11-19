@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const { GridFsStorage } = require("multer-gridfs-storage");
 const multer = require("multer");
 
-const mongoURI = "mongodb://127.0.0.1:27017/whatsapp_clone";
+const mongoURI = process.env.MONGO_URI;
 
 //Storage Engine GridFsStorage
 const storage = new GridFsStorage({

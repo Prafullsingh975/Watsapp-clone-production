@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const Grid = require("gridfs-stream");
 
 
-const mongoURI = "mongodb://127.0.0.1:27017/whatsapp_clone";
+// const mongoURI = "mongodb://127.0.0.1:27017/whatsapp_clone";
+const mongoURI = process.env.MONGO_URI;
 
 //connection
 const conn = mongoose.createConnection(mongoURI);
