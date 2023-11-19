@@ -3,7 +3,10 @@ const mongoURI = process.env.MONGO_URI;
 
 const connectionToDB=async()=>{
     try {
-        await mongoose.connect(mongoURI);
+        await mongoose.connect(mongoURI,{
+            useNewUrlParser :true,
+            useUnifiedTopology :true
+        });
         // mongoose.createConnection(mongoURI, {
         //   useNewUrlParser: true,
         //   useUnifiedTopology: true,
