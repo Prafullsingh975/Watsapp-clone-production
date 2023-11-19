@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const mongoURI = process.env.MONGO_URI;
+// const mongoURI = process.env.MONGO_URI;
 
 const connectionToDB=async()=>{
     try {
-        await mongoose.connect(mongoURI,{
+        await mongoose.connect("mongodb+srv://prafullsingh975:GjH1fDRoOMRj6xIc@cluster0.w4hr54z.mongodb.net/whatsapp_clone",{
             useNewUrlParser :true,
             useUnifiedTopology :true
         });
