@@ -7,11 +7,7 @@ const connectionToDB=async()=>{
             useNewUrlParser :true,
             useUnifiedTopology :true
         });
-        // mongoose.createConnection(mongoURI, {
-        //   useNewUrlParser: true,
-        //   useUnifiedTopology: true,
-        // });
-        console.log('DB Connected! to '+ process.env.MONGO_URI);
+        console.log('DB Connected!');
     } catch (error) {
         console.log(error.message);
     }
