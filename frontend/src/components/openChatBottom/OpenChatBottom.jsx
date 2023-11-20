@@ -42,7 +42,7 @@ const OpenChatBottom = ({ socket }) => {
     };
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/message/${sender.chatId ?? sender._id}`,
+        `/api/message/${sender.chatId ?? sender._id}`,
         config
       );
       setAllMessages(data);
@@ -56,9 +56,9 @@ const OpenChatBottom = ({ socket }) => {
       compareSelectedChat = sender;
       if (
         (msg.chat.inGroupChat &&
-          (String(compareSelectedChat._id) === String(msg.chat._id))) ||
+          String(compareSelectedChat._id) === String(msg.chat._id)) ||
         (!msg.chat.inGroupChat &&
-          (String(compareSelectedChat.chatId) === String(msg.chat._id)))
+          String(compareSelectedChat.chatId) === String(msg.chat._id))
       ) {
         notification?.has(msg.chat._id) &&
           setNotification((pre) => {
@@ -79,7 +79,8 @@ const OpenChatBottom = ({ socket }) => {
           );
         if (notification?.has(msg.chat._id)) {
           const pre = notification.get(msg.chat._id);
-          !pre.includes(msg) && setNotification(notification.set(msg.chat._id, [...pre, msg]));
+          !pre.includes(msg) &&
+            setNotification(notification.set(msg.chat._id, [...pre, msg]));
         } else {
           setNotification(notification.set(msg.chat._id, [msg]));
         }
@@ -108,11 +109,7 @@ const OpenChatBottom = ({ socket }) => {
           content: message,
         };
         setMessage("");
-        const { data } = await axios.post(
-          `http://localhost:5000/api/message/`,
-          body,
-          config
-        );
+        const { data } = await axios.post(`/api/message/`, body, config);
         socket.emit("newMessage", data);
         setAllMessages([...allMessages, data]);
       } catch (error) {
@@ -120,8 +117,6 @@ const OpenChatBottom = ({ socket }) => {
       }
     }
   };
-
-  
 
   return (
     <>

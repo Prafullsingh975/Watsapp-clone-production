@@ -24,7 +24,7 @@ import { io } from "socket.io-client";
 import { TypingState } from "../../context/TypingContext.jsx";
 import { SocketState } from "../../context/SocketContext";
 
-const endPoint = "http://localhost:5000";
+const endPoint = "";
 
 const Chat = () => {
   var { setSocketConnected, socket } = SocketState();

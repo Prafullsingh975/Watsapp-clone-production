@@ -1,5 +1,5 @@
 import React from "react";
-import './style.scss';
+import "./style.scss";
 
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { TbLogout } from "react-icons/tb";
@@ -8,12 +8,12 @@ import { UserInfoState } from "../../context/UserInfoContext";
 import { ShowStates } from "../../context/ShowContext";
 
 const Setting = () => {
-    const {userInfo} = UserInfoState();
-    const {setShowSetting,setShowLogout} = ShowStates();
-    const handleLogout = (e)=>{
-      e.stopPropagation(); 
-      setShowLogout(true)
-    }
+  const { userInfo } = UserInfoState();
+  const { setShowSetting, setShowLogout } = ShowStates();
+  const handleLogout = (e) => {
+    e.stopPropagation();
+    setShowLogout(true);
+  };
   return (
     <>
       <div className="setting">
@@ -23,10 +23,7 @@ const Setting = () => {
         </div>
         <div className="profile">
           <div className="dp">
-            <img
-              src={`http://127.0.0.1:5000/api/user/show-dp/${userInfo?.profilePic}`}
-              alt="dp"
-            />
+            <img src={`/api/user/show-dp/${userInfo?.profilePic}`} alt="dp" />
           </div>
           <div className="content">
             <h3>{userInfo?.userName}</h3>

@@ -2,11 +2,11 @@ import React, { forwardRef, useEffect } from "react";
 import "./style.scss";
 import { ShowStates } from "../../context/ShowContext";
 import { UserInfoState } from "../../context/UserInfoContext";
-import {Link,Navigate} from "react-router-dom"
+import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import { ChatState } from "../../context/ChatContext";
 const OptionMenu = forwardRef(
-  ({ options, setToggleOption, handleShowOption,css,chatId }, ref) => {
+  ({ options, setToggleOption, handleShowOption, css, chatId }, ref) => {
     const {
       setShowNewGroup,
       setShowSetting,
@@ -15,12 +15,12 @@ const OptionMenu = forwardRef(
       setShowDeleteChat,
       setShowOpenChat,
       setShowContactInfo,
-      setShowExitGroup
+      setShowExitGroup,
     } = ShowStates();
-    const {userInfo} = UserInfoState();
-    const {setSender} = ChatState();
+    const { userInfo } = UserInfoState();
+    const { setSender } = ChatState();
 
-    const makeAdmin = async (chatId,userId) => {
+    const makeAdmin = async (chatId, userId) => {
       const config = {
         headers: {
           Authorization: `Bearer ${userInfo?.jwttoken}`,
@@ -29,7 +29,7 @@ const OptionMenu = forwardRef(
       };
       try {
         const { data } = await axios.put(
-          `http://localhost:5000/api/chat/group/make-admin/${chatId}`,
+          `/api/chat/group/make-admin/${chatId}`,
           { email: userInfo?.email, newAdminId: userId },
           config
         );
@@ -57,11 +57,11 @@ const OptionMenu = forwardRef(
       };
       try {
         const { data } = await axios.put(
-          `http://localhost:5000/api/chat/group/dismiss-admin/${chatId}`,
+          `/api/chat/group/dismiss-admin/${chatId}`,
           { email: userInfo?.email, adminId: userId },
           config
         );
-        if(typeof (data) === 'object')setSender(data);
+        if (typeof data === "object") setSender(data);
       } catch (error) {
         console.log(error.message);
         // const registrationFail = () =>
@@ -73,32 +73,32 @@ const OptionMenu = forwardRef(
         return error;
       }
     };
-    const removeUser = async (chatId,userId)=>{
-     const config = {
-       headers: {
-         Authorization: `Bearer ${userInfo?.jwttoken}`,
-         "Content-type": "application/json",
-       },
-     };
-     try {
-       const { data } = await axios.put(
-         `http://localhost:5000/api/chat/group/remove-user/${chatId}`,
-         { email: userInfo?.email, userId: userId },
-         config
-       );
-       if (typeof data === "object") setSender(data);
-       else console.log(data);
-     } catch (error) {
-       console.log(error.message);
-       // const registrationFail = () =>
-       //   toast.error(`${error?.response?.data}`, {
-       //     position: toast.POSITION.TOP_CENTER,
-       //     toastId: "registrationFail",
-       //   });
-       // registrationFail();
-       return error;
-     } 
-    }
+    const removeUser = async (chatId, userId) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo?.jwttoken}`,
+          "Content-type": "application/json",
+        },
+      };
+      try {
+        const { data } = await axios.put(
+          `/api/chat/group/remove-user/${chatId}`,
+          { email: userInfo?.email, userId: userId },
+          config
+        );
+        if (typeof data === "object") setSender(data);
+        else console.log(data);
+      } catch (error) {
+        console.log(error.message);
+        // const registrationFail = () =>
+        //   toast.error(`${error?.response?.data}`, {
+        //     position: toast.POSITION.TOP_CENTER,
+        //     toastId: "registrationFail",
+        //   });
+        // registrationFail();
+        return error;
+      }
+    };
 
     const handleClick = (option) => {
       switch (option) {
@@ -161,7 +161,7 @@ const OptionMenu = forwardRef(
           setToggleOption(false);
           break;
         case "Remove":
-          removeUser(chatId,handleShowOption);
+          removeUser(chatId, handleShowOption);
           setToggleOption(false);
           break;
 
@@ -170,7 +170,6 @@ const OptionMenu = forwardRef(
           break;
       }
     };
-
 
     return (
       <>
@@ -181,9 +180,7 @@ const OptionMenu = forwardRef(
               key={index}
               className="option"
             >
-              <h5 >
-                {option}
-              </h5>
+              <h5>{option}</h5>
             </div>
           ))}
         </div>

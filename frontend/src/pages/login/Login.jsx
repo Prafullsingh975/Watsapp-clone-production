@@ -1,15 +1,15 @@
-import './style.scss';
-import {CustomButton} from '../../components/exportComponents'
-import { useState } from 'react';
+import "./style.scss";
+import { CustomButton } from "../../components/exportComponents";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [credentials,setCredential] = useState({
-    email:"",
-    password:""
+  const [credentials, setCredential] = useState({
+    email: "",
+    password: "",
   });
 
   const fillDetails = () =>
@@ -17,40 +17,40 @@ const Login = () => {
       position: toast.POSITION.TOP_CENTER,
     });
 
-    const navigate = useNavigate()
-  const handleChange =  (e)=>{
-   const {name,value} = e.target;
-   setCredential((pre)=>{
-    return{
-      ...pre,[name]:value
-    }
-   })
-  }
-  
-  const handleSubmit = async(e)=>{
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCredential((pre) => {
+      return {
+        ...pre,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {email,password} = credentials;
-    if(!email || !password){
+    const { email, password } = credentials;
+    if (!email || !password) {
       fillDetails();
-    }
-    else{
-            //sending data to backend
-      const config ={
-        headers:{
-          'Content-type':'application/json',
+    } else {
+      //sending data to backend
+      const config = {
+        headers: {
+          "Content-type": "application/json",
         },
       };
       try {
         const { data } = await axios.post(
-          "http://localhost:5000/api/user/login",
+          "/api/user/login",
           { email, password },
           config
         );
         localStorage.setItem("userInfo", JSON.stringify(data));
         setCredential({
-          email:"",
-          password:""
-        })
+          email: "",
+          password: "",
+        });
         navigate("/chat");
       } catch (error) {
         const registrationFail = () =>
@@ -59,11 +59,11 @@ const Login = () => {
             toastId: "registrationFail",
           });
         registrationFail();
-        return error
+        return error;
       }
     }
     // console.log(credentials);
-  }
+  };
   return (
     <>
       <div className="container">

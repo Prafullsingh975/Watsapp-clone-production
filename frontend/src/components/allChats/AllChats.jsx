@@ -13,14 +13,13 @@ import axios from "axios";
 import { ShowStates } from "../../context/ShowContext";
 import { ChatState } from "../../context/ChatContext";
 
-
-const AllChats = ({socket}) => {
+const AllChats = ({ socket }) => {
   const { userInfo } = UserInfoState();
   const { setShowOpenChat } = ShowStates();
-  const { allChats, setAllChats,sender,allMessages } = ChatState();
+  const { allChats, setAllChats, sender, allMessages } = ChatState();
   const [isLoading, setIsLoading] = useState(false);
   const [searchResult, setSearchResult] = useState();
-  const [allChatsSearch,setAllChatsSearch] = useState();
+  const [allChatsSearch, setAllChatsSearch] = useState();
 
   const getAllChats = async () => {
     const config = {
@@ -31,10 +30,7 @@ const AllChats = ({socket}) => {
       },
     };
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/chat/",
-        config
-      );
+      const { data } = await axios.get("/api/chat/", config);
       setAllChats(data);
     } catch (error) {
       // console.log(error.message);
@@ -57,10 +53,7 @@ const AllChats = ({socket}) => {
       },
     };
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/message/${chatId}`,
-        config
-      );
+      const { data } = await axios.get(`/api/message/${chatId}`, config);
       return data;
       // console.log(data);
       // setAllMsg(data);
@@ -69,14 +62,14 @@ const AllChats = ({socket}) => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllChats();
-  },[sender,allMessages]);
+  }, [sender, allMessages]);
 
   if (!allChats) {
     getAllChats();
-  };
-  
+  }
+
   const searchInExistingChat = async (search) => {
     const config = {
       headers: {
@@ -87,7 +80,7 @@ const AllChats = ({socket}) => {
     };
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/chat/search?search=${search}`,
+        `/api/chat/search?search=${search}`,
         config
       );
       setSearchResult(data);
@@ -133,15 +126,17 @@ const AllChats = ({socket}) => {
                 />
               ))
             : allChats?.map((chat) => {
-              const msgs = getAllMessage(chat._id); 
-                return <MsgBox
-                  socket={socket}
-                  data={chat}
-                  key={chat._id}
-                  onClick={setShowOpenChat}
-                  allMsg ={msgs}
-                />
-          })}
+                const msgs = getAllMessage(chat._id);
+                return (
+                  <MsgBox
+                    socket={socket}
+                    data={chat}
+                    key={chat._id}
+                    onClick={setShowOpenChat}
+                    allMsg={msgs}
+                  />
+                );
+              })}
         </div>
       )}
     </>

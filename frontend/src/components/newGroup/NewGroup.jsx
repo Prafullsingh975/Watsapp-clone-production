@@ -23,10 +23,10 @@ const NewGroup = ({ addParticipants }) => {
     showCreateNewGroup,
     setShowAddParticipants,
   } = ShowStates();
-  const { sender,setSender } = ChatState();
+  const { sender, setSender } = ChatState();
   const [selectedUser, setSelectedUser] = useState([]);
   const [hasGroupName, setHasGroupName] = useState();
-  const [users,setUsers] = useState();
+  const [users, setUsers] = useState();
 
   const fetchAllUsers = async (email) => {
     const config = {
@@ -37,7 +37,7 @@ const NewGroup = ({ addParticipants }) => {
     };
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/user/allusers",
+        "/api/user/allusers",
         { email },
         config
       );
@@ -58,7 +58,6 @@ const NewGroup = ({ addParticipants }) => {
     fetchAllUsers(userInfo.email);
   }, []);
 
-
   const manageUser = (id, allUsers) => {
     return allUsers.findIndex((user) => {
       return String(user._id) === String(id);
@@ -74,11 +73,14 @@ const NewGroup = ({ addParticipants }) => {
         newUsers.splice(index, 1);
         setAllUsers(newUsers);
         setSelectedUser((pre) => [...pre, user]);
-      }else{
+      } else {
         const registrationFail = () =>
-          toast.error("You cannot add this user because this user already in the group", {
-            position: toast.POSITION.TOP_CENTER,
-          });
+          toast.error(
+            "You cannot add this user because this user already in the group",
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
         registrationFail();
       }
     } else {
@@ -106,14 +108,14 @@ const NewGroup = ({ addParticipants }) => {
     };
     try {
       const { data } = await axios.post(
-        `http://localhost:5000/api/chat/group/create`,
+        `/api/chat/group/create`,
         hasGroupName,
         config
       );
       setShowCreateNewGroup(false);
       setShowNewGroup(false);
     } catch (error) {
-      return error.message
+      return error.message;
     }
   };
 
@@ -141,7 +143,7 @@ const NewGroup = ({ addParticipants }) => {
     const participant = JSON.stringify(extractUsersId(selectedUser));
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/api/chat/group/add-user/${sender._id}`,
+        `/api/chat/group/add-user/${sender._id}`,
         {
           email: userInfo.email,
           participants: participant,

@@ -7,11 +7,11 @@ import axios from "axios";
 import { UserInfoState } from "../../context/UserInfoContext";
 
 const Logout = ({ option }) => {
-
-  const { setShowLogout,setShowDeleteChat,setShowBlock,setShowExitGroup } = ShowStates();
+  const { setShowLogout, setShowDeleteChat, setShowBlock, setShowExitGroup } =
+    ShowStates();
   const navigate = useNavigate();
-  const {sender,setSender}= ChatState();
-  const {userInfo} = UserInfoState();
+  const { sender, setSender } = ChatState();
+  const { userInfo } = UserInfoState();
 
   const exitGroup = async (chatId) => {
     const config = {
@@ -22,7 +22,7 @@ const Logout = ({ option }) => {
     };
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/api/chat/group/exit/${chatId}`,
+        `/api/chat/group/exit/${chatId}`,
         { email: userInfo?.email },
         config
       );
@@ -60,7 +60,7 @@ const Logout = ({ option }) => {
         break;
     }
   };
-  
+
   const handleOption = () => {
     switch (option) {
       case "Log out":
@@ -92,22 +92,21 @@ const Logout = ({ option }) => {
               ? "Log out?"
               : option === "Delete chat"
               ? "Delete this chat?"
-              : option=== "Exit group"?`Exit "${sender.chatName}" group?`:"Block UserName"}
+              : option === "Exit group"
+              ? `Exit "${sender.chatName}" group?`
+              : "Block UserName"}
           </h4>
           <p>
             {option === "Log out"
               ? "Are you sure you want to logout?"
               : option === "Delete chat"
               ? "Message will only be removed from this device and your device on newer version of WhatsApp"
-              :option=== "Exit group"?"Only group admins will be notified that you left the group"
+              : option === "Exit group"
+              ? "Only group admins will be notified that you left the group"
               : "Blocked contacts will no longer be able to call you and send you messages. This contact will not notified"}
           </p>
-          <div  className="logoutButtons">
-            <button
-              onClick={handleClose}
-              className="logoutBtn"
-              id="cancelBtn"
-            >
+          <div className="logoutButtons">
+            <button onClick={handleClose} className="logoutBtn" id="cancelBtn">
               Cancel
             </button>
             <button onClick={handleOption} className="logoutBtn">

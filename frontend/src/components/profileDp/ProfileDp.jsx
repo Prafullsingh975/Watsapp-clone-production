@@ -13,7 +13,10 @@ const ProfileDp = ({ dpImg }) => {
   return (
     <>
       <div onClick={handleClick} className="profileDp">
-        <img src={`http://127.0.0.1:5000/api/user/show-dp/${dpImg?dpImg:userInfo.profilePic}`} alt="Profile DP" />
+        <img
+          src={`/api/user/show-dp/${dpImg ? dpImg : userInfo.profilePic}`}
+          alt="Profile DP"
+        />
       </div>
     </>
   );

@@ -15,7 +15,7 @@ const OpenChat = ({ socket }) => {
   const { sender, allMessages } = ChatState();
   const { userInfo } = UserInfoState();
   const refBottom = useRef(null);
-  
+
   useEffect(() => {
     refBottom.current.scrollIntoView();
   });
@@ -31,8 +31,9 @@ const OpenChat = ({ socket }) => {
           {allMessages?.map((msg, index) => (
             <>
               <div className="msgDivider">
-                {msgTimeDivider(allMessages, index) &&
-                <span>{msgTimeDivider(allMessages, index)}</span>}
+                {msgTimeDivider(allMessages, index) && (
+                  <span>{msgTimeDivider(allMessages, index)}</span>
+                )}
               </div>
               {String(msg.sender._id) === String(userInfo?._id) ? (
                 <SendMsg key={msg._id} msg={msg} />
@@ -47,7 +48,7 @@ const OpenChat = ({ socket }) => {
                   {msg.chat.inGroupChat && showFirstDp(allMessages, index) ? (
                     <div className="dp">
                       <img
-                        src={`http://127.0.0.1:5000/api/user/show-dp/${msg.sender.profilePic}`}
+                        src={`/api/user/show-dp/${msg.sender.profilePic}`}
                         alt="dp"
                       />
                     </div>

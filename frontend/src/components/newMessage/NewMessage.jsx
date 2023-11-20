@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import '../newGroup/style.scss';
+import "../newGroup/style.scss";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { ShowStates } from "../../context/ShowContext";
 import { Contact, SearchBar } from "../exportComponents";
@@ -9,12 +9,11 @@ import { UserInfoState } from "../../context/UserInfoContext";
 import { ChatState } from "../../context/ChatContext";
 import { findSender } from "../../utils/findSender";
 
-const NewMessage = ({addParticipants}) => {
-
+const NewMessage = ({ addParticipants }) => {
   const { setShowNewMessage, setShowNewGroup, setShowOpenChat } = ShowStates();
   const { allUsers, userInfo, setAllUsers } = UserInfoState();
-  const {setSender} = ChatState();
-  const [result,setResult] = useState();
+  const { setSender } = ChatState();
+  const [result, setResult] = useState();
 
   const createChatOrFindChat = async (user) => {
     const config = {
@@ -25,7 +24,7 @@ const NewMessage = ({addParticipants}) => {
     };
     try {
       const { data } = await axios.post(
-        `http://localhost:5000/api/chat`,
+        `/api/chat`,
         { email: userInfo?.email, userId: user._id },
         config
       );
@@ -54,12 +53,9 @@ const NewMessage = ({addParticipants}) => {
       },
     };
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/user/?search=${search}`,
-        config
-      );
+      const { data } = await axios.get(`/api/user/?search=${search}`, config);
       data?.sort((a, b) => a.userName.localeCompare(b.userName));
-        setResult(data);
+      setResult(data);
       // setAllChats(data);
     } catch (error) {
       // console.log(error.message);
@@ -82,7 +78,7 @@ const NewMessage = ({addParticipants}) => {
     };
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/user/allusers",
+        "/api/user/allusers",
         { email },
         config
       );
@@ -130,12 +126,12 @@ const NewMessage = ({addParticipants}) => {
               fontWeight: "400",
               color: "var(--bgGreen)",
               margin: "2rem",
-              overflowY:"auto"
+              overflowY: "auto",
             }}
           >
             CONTACTS ON WHATSAPP
           </h3>
-          <ul style={{listStyle:"none"}}>
+          <ul style={{ listStyle: "none" }}>
             {result
               ? result?.map((user) => (
                   <li key={user._id}>

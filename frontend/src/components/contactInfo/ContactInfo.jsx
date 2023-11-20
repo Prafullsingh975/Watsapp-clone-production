@@ -1,4 +1,4 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import "./style.scss";
 import { IoClose, IoExitOutline } from "react-icons/io5";
 import { MdBlock, MdDelete } from "react-icons/md";
@@ -11,7 +11,6 @@ import axios from "axios";
 import { UserInfoState } from "../../context/UserInfoContext";
 
 const ContactInfo = () => {
-
   const {
     setShowContactInfo,
     setShowBlock,
@@ -19,14 +18,14 @@ const ContactInfo = () => {
     setShowExitGroup,
     setShowAddParticipants,
   } = ShowStates();
-  const { sender,setSender,setChatName } = ChatState();
-  const {userInfo} = UserInfoState();
+  const { sender, setSender, setChatName } = ChatState();
+  const { userInfo } = UserInfoState();
   const [dp, setDp] = useState();
-  const dpInput = useRef()
-  const handleExitGroup = (name)=>{
+  const dpInput = useRef();
+  const handleExitGroup = (name) => {
     setShowExitGroup(true);
     setChatName(name);
-  }
+  };
   const handleOpenSelectDp = () => {
     dpInput.current.click();
   };
@@ -45,13 +44,12 @@ const ContactInfo = () => {
         },
       };
       const { data } = await axios.post(
-        `http://localhost:5000/api/chat/group/changeDp/${sender._id}`,
+        `/api/chat/group/changeDp/${sender._id}`,
         formData,
         config
       );
       // console.log(data);
       setSender(data);
-      
     } catch (error) {
       console.log(error);
       return error;
@@ -100,7 +98,7 @@ const ContactInfo = () => {
               </>
             ) : null}
             <img
-              src={`http://127.0.0.1:5000/api/user/show-dp/${
+              src={`/api/user/show-dp/${
                 sender.inGroupChat ? sender.chatDp : sender.profilePic
               }`}
               alt="image"

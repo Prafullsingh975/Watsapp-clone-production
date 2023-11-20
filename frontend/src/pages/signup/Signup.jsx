@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import { useNavigate} from 'react-router-dom';
-import './style.scss';
-import {CustomButton} from '../../components/exportComponents'
-import axios from 'axios'
+import { useNavigate } from "react-router-dom";
+import "./style.scss";
+import { CustomButton } from "../../components/exportComponents";
+import axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,8 +19,8 @@ const Signup = () => {
   //Hooks
   const cnfrmPasswordInput = useRef();
   const submitBtn = useRef();
-  const navigate  = useNavigate();
-  const [userDetail,setUserDetail] = useState(initial);
+  const navigate = useNavigate();
+  const [userDetail, setUserDetail] = useState(initial);
 
   //Toasts
   const registered = () =>
@@ -32,61 +32,61 @@ const Signup = () => {
       position: toast.POSITION.TOP_CENTER,
     });
   const strongPassword = () =>
-    toast.error("Enter strong password of atleast 8 charactars in password field", {
-      position: toast.POSITION.TOP_CENTER,
-      toastId: "strongPassword",
-    });
+    toast.error(
+      "Enter strong password of atleast 8 charactars in password field",
+      {
+        position: toast.POSITION.TOP_CENTER,
+        toastId: "strongPassword",
+      }
+    );
 
-
-  const handleChange = (e)=>{
-     const {name,value} = e.target
-     if (name === 'confirmPassword') {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "confirmPassword") {
       const match = userDetail.password;
-      if (match.length<8) {
-      toast.clearWaitingQueue({ containerId: "strongPassword" });
+      if (match.length < 8) {
+        toast.clearWaitingQueue({ containerId: "strongPassword" });
         strongPassword();
         submitBtn.current.setAttribute("disabled", true);
         submitBtn.current.style.opacity = "0.5";
         submitBtn.current.style.cursor = "none";
       }
       if (match !== value.trim()) {
-        cnfrmPasswordInput.current.style.borderColor = 'red';
+        cnfrmPasswordInput.current.style.borderColor = "red";
         submitBtn.current.setAttribute("disabled", true);
-        submitBtn.current.style.opacity = '0.5'
-        submitBtn.current.style.cursor = 'none'
-      }
-      else{
+        submitBtn.current.style.opacity = "0.5";
+        submitBtn.current.style.cursor = "none";
+      } else {
         cnfrmPasswordInput.current.style.borderColor = "#8696A0";
         submitBtn.current.removeAttribute("disabled");
         submitBtn.current.style.opacity = "1";
         submitBtn.current.style.cursor = "pointer";
       }
-     }
+    }
     setUserDetail((preValue) => {
       return {
         ...preValue,
         [name]: value.trim(),
       };
     });
-  }
-  const handleSubmit = async(e)=>{
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {userName,email,password}=userDetail;
+    const { userName, email, password } = userDetail;
     if (!userName || !email || !password) {
       toast.clearWaitingQueue();
-      fillDetails() //toster
-    }
-    else{
+      fillDetails(); //toster
+    } else {
       toast.clearWaitingQueue();
       //sending data to backend
-      const config ={
-        headers:{
-          'Content-type':'application/json',
+      const config = {
+        headers: {
+          "Content-type": "application/json",
         },
       };
       try {
         const { data } = await axios.post(
-          "http://localhost:5000/api/user/signup",
+          "/api/user/signup",
           { userName, email, password },
           config
         );
@@ -101,11 +101,10 @@ const Signup = () => {
             toastId: "registrationFail",
           });
         registrationFail();
-        return error
+        return error;
       }
-      
     }
-  }
+  };
 
   return (
     <>
@@ -151,15 +150,10 @@ const Signup = () => {
             required
           />
         </form>
-        <CustomButton
-          ref={submitBtn}
-          form={"signup"}
-          type={"submit"}
-        >
+        <CustomButton ref={submitBtn} form={"signup"} type={"submit"}>
           Signup
         </CustomButton>
         <ToastContainer limit={1} />;
-        
       </div>
     </>
   );
