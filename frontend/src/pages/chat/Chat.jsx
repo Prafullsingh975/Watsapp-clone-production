@@ -30,14 +30,14 @@ const Chat = () => {
   var { setSocketConnected, socket } = SocketState();
   const { passSocket, setPassSocket } = SocketState();
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const { isTyping, setIsTyping } = TypingState();
+  // const { isTyping, setIsTyping } = TypingState();
 
   useEffect(() => {
     socket = io(endPoint);
     socket.emit("setUp", userInfo);
     socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
+    // socket.on("typing", () => setIsTyping(true));
+    // socket.on("stop typing", () => setIsTyping(false));
     socket && setPassSocket(socket);
   }, []);
 

@@ -22,44 +22,48 @@ const OpenChat = ({ socket }) => {
   return (
     <>
       <div className="openChatWrapper">
-        <OpenChatNav sender={sender} />
+        <OpenChatNav sender={sender} socket={socket}/>
         <div
           style={{ paddingLeft: sender?.inGroupChat ? "1.5rem" : null }}
           className="msgSection"
         >
           {/* <div style={{display:"flex",justifyContent:"center",position:"fixed" , top:"1rem",left:"50%"}}>Time</div> */}
-          {allMessages?.map((msg, index) => (
-            <>
-              <div className="msgDivider">
-                {msgTimeDivider(allMessages, index) && (
-                  <span>{msgTimeDivider(allMessages, index)}</span>
-                )}
-              </div>
-              {String(msg.sender._id) === String(userInfo?._id) ? (
-                <SendMsg key={msg._id} msg={msg} />
-              ) : (
-                <div
-                  key={msg._id}
-                  style={{
-                    display: "flex",
-                    gap: msg.chat.inGroupChat ? "1rem" : null,
-                  }}
-                >
-                  {msg.chat.inGroupChat && showFirstDp(allMessages, index) ? (
-                    <div className="dp">
-                      <img
-                        src={`/api/user/show-dp/${msg.sender.profilePic}`}
-                        alt="dp"
-                      />
-                    </div>
+          {allMessages?.map(
+            (msg, index) =>
+              (msg.chat._id == sender.chatId || msg.chat._id == sender._id) && (
+                <>
+                  <div className="msgDivider">
+                    {msgTimeDivider(allMessages, index) && (
+                      <span>{msgTimeDivider(allMessages, index)}</span>
+                    )}
+                  </div>
+                  {String(msg.sender._id) === String(userInfo?._id) ? (
+                    <SendMsg key={msg._id} msg={msg} />
                   ) : (
-                    <div className="dp"></div>
+                    <div
+                      key={msg._id}
+                      style={{
+                        display: "flex",
+                        gap: msg.chat.inGroupChat ? "1rem" : null,
+                      }}
+                    >
+                      {msg.chat.inGroupChat &&
+                      showFirstDp(allMessages, index) ? (
+                        <div className="dp">
+                          <img
+                            src={`/api/user/show-dp/${msg.sender.profilePic}`}
+                            alt="dp"
+                          />
+                        </div>
+                      ) : (
+                        <div className="dp"></div>
+                      )}
+                      <ReceivedMsg key={msg._id} msg={msg} />
+                    </div>
                   )}
-                  <ReceivedMsg key={msg._id} msg={msg} />
-                </div>
-              )}
-            </>
-          ))}
+                </>
+              )
+          )}
           <span ref={refBottom} className="bottom"></span>
         </div>
         <OpenChatBottom socket={socket} />

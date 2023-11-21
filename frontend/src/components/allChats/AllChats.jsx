@@ -30,7 +30,7 @@ const AllChats = ({ socket }) => {
       },
     };
     try {
-      const { data } = await axios.get("/api/chat/", config);
+      const { data } = await axios.get("/api/chat", config);
       setAllChats(data);
     } catch (error) {
       // console.log(error.message);

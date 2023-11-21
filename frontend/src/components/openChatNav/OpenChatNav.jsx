@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Lottie from "react-lottie";
 import "./style.scss";
 import { ProfileDp, OptionMenu } from "../exportComponents.js";
@@ -9,13 +9,17 @@ import { participantsName } from "../../utils/group";
 import { TypingState } from "../../context/TypingContext.jsx";
 import typing from "../../assets/typing.json";
 
-const OpenChatNav = ({ sender }) => {
+const OpenChatNav = ({ sender,socket }) => {
   const [toggleOption, setToggleOption] = useState(false);
   const optionMenuRef = useRef();
   const shadowRef = useRef();
   const { setShowContactInfo } = ShowStates();
-  const { isTyping } = TypingState();
+const { isTyping, setIsTyping } = TypingState();
 
+useEffect(() => {
+  socket.on("typing", () => setIsTyping(true));
+  socket.on("stop typing", () => setIsTyping(false));
+}, []);
   const optionGenerator = (isGroup) => {
     const groupOption = [
       "Group info",
